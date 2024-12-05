@@ -1,0 +1,79 @@
+.authCon {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff;
+  padding: 20px 30px 30px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 12px rgba(72, 122, 157, 0.397);
+  max-height: 80vh;
+}
+
+.authCon h1 {
+  text-align: center;
+  color: #006a8e;
+  margin-bottom: 17px;
+}
+
+.authCon form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.authCon form label {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.authCon form input,
+.authCon form select {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+.authCon form input:focus,
+.authCon form select:focus {
+  border-color: #006a8e;
+}
+
+.authCon form input[type="submit"] {
+  background-color: #006a8e;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.authCon form input[type="submit"]:hover {
+  background-color: #004f73;
+}
+
+.authCon form span {
+  text-align: center;
+}
+
+.authCon form span a {
+  color: #006a8e;
+  text-decoration: none;
+}
+
+.authCon form span a:hover {
+  text-decoration: underline;
+}
+
+.authCon .error {
+  color: red;
+  font-size: 12px;
+  margin-top: -5px;
+}

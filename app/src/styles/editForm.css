@@ -1,0 +1,99 @@
+.formContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px 30px 30px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 12px rgba(72, 122, 157, 0.397);
+  z-index: 20; /* Ensures the form stays above other elements */
+  max-height: 80vh;
+  width: 400px;
+}
+
+.formWrapper {
+  position: relative;
+}
+
+.openFormBtn {
+  background-color: #006a8e;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+}
+
+.openFormBtn:hover {
+  background-color: #004f73;
+}
+
+.closeFormBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.closeFormBtn:hover {
+  color: #ff0000;
+}
+
+.formWrapper h1 {
+  text-align: center;
+  color: #006a8e;
+  margin-bottom: 20px;
+}
+
+.formWrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formWrapper form label {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.formWrapper form input,
+.formWrapper form select {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+.formWrapper form input:focus,
+.formWrapperform select:focus {
+  border-color: #006a8e;
+}
+
+.formWrapper form input[type="submit"] {
+  background-color: #006a8e;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.formWrapper form input[type="submit"]:hover {
+  background-color: #004f73;
+}
+
+.error {
+  font-size: 12px;
+  margin-top: -5px;
+}

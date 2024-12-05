@@ -1,0 +1,79 @@
+/* Add this to a CSS file like AddNote.css */
+.addNote {
+  max-width: 500px;
+  margin: 50px auto; /* Centers the form horizontally and adds spacing at the top */
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background for the form */
+  border: 1px solid #ddd;
+  border-radius: 10px; /* Smooth corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.addNote h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Dark text color */
+}
+
+.addNote form {
+  display: flex;
+  flex-direction: column;
+}
+
+.addNote label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555; /* Subtle label color */
+}
+
+.addNote input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.addNote input[type="text"]:focus {
+  outline: none;
+  border-color: #005695; /* Highlight on focus */
+  box-shadow: 0 0 5px rgba(0, 86, 149, 0.5);
+}
+
+.addNote button {
+  padding: 10px 15px;
+  background-color: #005695; /* Primary color for button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.addNote button:hover {
+  background-color: #004080; /* Darker shade on hover */
+}
+
+.addNote p {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.addNote p[style="color: red"] {
+  color: #d9534f; /* Error message red */
+  font-weight: bold;
+}
+
+.addNote p[style="color: green"] {
+  color: #5cb85c; /* Success message green */
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .addNote {
+    width: 90%; /* Shrinks the form for smaller screens */
+  }
+}

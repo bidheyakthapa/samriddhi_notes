@@ -1,0 +1,33 @@
+.sideBar {
+  position: fixed;
+}
+
+.sideBar aside {
+  width: 250px;
+  background: #e4fbff;
+  height: 100vh;
+  border-right: 1px solid #005695;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sideBar ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+}
+
+.sideBar li a {
+  color: #0c5d96;
+  text-decoration: none;
+}
+
+.sideBar li.active a {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #005695;
+}

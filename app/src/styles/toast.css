@@ -1,0 +1,21 @@
+.toast {
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  opacity: 0.9;
+  font-size: 16px;
+  transition: opacity 0.5s ease-out;
+}
+
+.toast.success {
+  background-color: #2ecc71;
+}
+
+.toast.error {
+  background-color: #e74c3c;
+}
