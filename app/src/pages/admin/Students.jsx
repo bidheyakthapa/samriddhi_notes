@@ -71,7 +71,7 @@ const Students = () => {
   const handleFormSubmit = async (updatedData) => {
     try {
       await axios.put(
-        `http://localhost:8800/api/user/editUser/${updatedData.id}`,
+        `http://localhost:8800/api/user/editUser/users/${updatedData.id}`,
         updatedData
       );
 

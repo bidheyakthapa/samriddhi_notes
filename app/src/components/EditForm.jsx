@@ -3,7 +3,7 @@ import "../styles/editForm.css";
 
 const EditForm = ({ data, onClose, handleEdit }) => {
   const [formData, setFormData] = useState({
-    id: "", // Add id to form data
+    id: "",
     name: "",
     email: "",
     faculty: "",
@@ -12,11 +12,10 @@ const EditForm = ({ data, onClose, handleEdit }) => {
 
   const [errors, setErrors] = useState({});
 
-  // Set form data when teacher/student data is provided
   useEffect(() => {
     if (data) {
       setFormData({
-        id: data.id || "", // Set id from data
+        id: data.id || "",
         name: data.name || "",
         email: data.email || "",
         faculty: data.faculty || "",
@@ -25,19 +24,16 @@ const EditForm = ({ data, onClose, handleEdit }) => {
     }
   }, [data]);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const dataToSubmit = { ...formData, id: formData.id }; // Explicitly add id
+    const dataToSubmit = { ...formData, id: formData.id };
     try {
-      // Call the passed handleEdit function with formData, including the id
       handleEdit(dataToSubmit);
-      onClose(); // Close the form after submission
+      onClose();
     } catch (error) {
       setErrors({ general: "Failed to submit the form. Try again later." });
     }
@@ -52,7 +48,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
 
         <h1>Edit {data?.role === "teacher" ? "Teacher" : "Student"}</h1>
         <form onSubmit={handleSubmit}>
-          {/* Name Input */}
           <label htmlFor="name">Name</label>
           <input
             type="text"
@@ -64,7 +59,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
           />
           {errors.name && <div className="error">{errors.name}</div>}
 
-          {/* Email Input */}
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -76,7 +70,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
           />
           {errors.email && <div className="error">{errors.email}</div>}
 
-          {/* Faculty Dropdown */}
           <label htmlFor="faculty">Faculty</label>
           <select
             id="faculty"
@@ -90,7 +83,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
           </select>
           {errors.faculty && <div className="error">{errors.faculty}</div>}
 
-          {/* Role Dropdown */}
           <label htmlFor="role">Role</label>
           <select
             id="role"
@@ -104,7 +96,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
           </select>
           {errors.role && <div className="error">{errors.role}</div>}
 
-          {/* Submit Button */}
           <input type="submit" value="Submit" />
         </form>
       </div>

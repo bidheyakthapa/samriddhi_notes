@@ -38,7 +38,7 @@ const Teachers = () => {
   const handleDelete = async (row) => {
     try {
       await axios.delete(
-        `http://localhost:8800/api/user/deleteTeacher/${row.id}`
+        `http://localhost:8800/api/user/deleteTeacher/users/${row.id}`
       );
       setTeachers(teachers.filter((item) => item.id !== row.id));
       setToast({ status: "success", message: "Teacher deleted successfully!" });
@@ -70,7 +70,7 @@ const Teachers = () => {
 
   const handleFormSubmit = async (updatedData) => {
     try {
-      console.log("Updated Data:", updatedData); // Debugging line to check the updated data
+      console.log("Updated Data:", updatedData);
       await axios.put(
         `http://localhost:8800/api/user/editUser/${updatedData.id}`,
         updatedData

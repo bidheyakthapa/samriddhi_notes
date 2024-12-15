@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import "../../styles/auth.css";
 import axios from "axios";
+import Toast from "../../components/Toast";
+import { AuthContext } from "../../context/authContext";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -12,37 +14,50 @@ const SignUp = () => {
     role: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [toast, setToast] = useState();
+
+  const { currentUser } = useContext(AuthContext);
 
   // Handle input change
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Handle form submit
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make the API request
       await axios.post("http://localhost:8800/api/auth/register", formData);
+      setToast({
+        status: "success",
+        message: "Sign up successfull!",
+      });
     } catch (error) {
-      // Check if the error has a response property
-      if (error.response) {
-        // Set errors from the response data
-        setErrors(error.response.data);
-      } else {
-        // Handle cases where there's no response
-        console.error("Network or other error:", error);
-        setErrors({ general: "An error occurred. Please try again later." });
-      }
+      setToast({
+        status: "error",
+        message: error.response
+          ? error.response.data
+          : "Failed to register user.",
+      });
     }
+  };
+
+  if (currentUser) {
+    if (currentUser.role === "admin") {
+      return <Navigate to="/admin" />;
+    } else if (currentUser.role === "teacher") {
+      return <Navigate to="/teacher" />;
+    } else if (currentUser.role === "student") {
+      return <Navigate to="/student" />;
+    }
+  }
+  const handleToastClose = () => {
+    setToast(null);
   };
 
   return (
     <div className="authCon">
       <h1>Sign Up</h1>
       <form onSubmit={handelSubmit}>
-        {/* Name Input */}
         <label htmlFor="name">Name</label>
         <input
           type="text"
@@ -52,9 +67,7 @@ const SignUp = () => {
           onChange={handleChange}
           placeholder="Enter your full name"
         />
-        {errors.name && <div className="error">{errors.name}</div>}
 
-        {/* Email Input */}
         <label htmlFor="email">Email</label>
         <input
           type="email"
@@ -64,9 +77,7 @@ const SignUp = () => {
           onChange={handleChange}
           placeholder="Enter your email"
         />
-        {errors.email && <div className="error">{errors.email}</div>}
 
-        {/* Password Input */}
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -76,9 +87,7 @@ const SignUp = () => {
           onChange={handleChange}
           placeholder="Enter a password"
         />
-        {errors.password && <div className="error">{errors.password}</div>}
 
-        {/* Faculty Dropdown */}
         <label htmlFor="faculty">Faculty</label>
         <select
           id="faculty"
@@ -90,9 +99,7 @@ const SignUp = () => {
           <option value="BCA">BCA</option>
           <option value="CSIT">CSIT</option>
         </select>
-        {errors.faculty && <div className="error">{errors.faculty}</div>}
 
-        {/* Role Dropdown */}
         <label htmlFor="role">Role</label>
         <select
           id="role"
@@ -104,16 +111,20 @@ const SignUp = () => {
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
         </select>
-        {errors.role && <div className="error">{errors.role}</div>}
 
-        {/* Submit Button */}
         <input type="submit" value="Sign Up" />
 
-        {/* Link to Login page */}
         <span>
           Have an account? <Link to="/login">Login</Link>
         </span>
       </form>
+      {toast && (
+        <Toast
+          status={toast.status}
+          message={toast.message}
+          onClose={handleToastClose}
+        />
+      )}
     </div>
   );
 };

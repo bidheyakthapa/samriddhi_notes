@@ -20,7 +20,7 @@ CREATE TABLE `notes`.`users` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `notes` (
+CREATE TABLE `notes`.`notes` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,     
   `teacher_id` INT NOT NULL,               
   `title` VARCHAR(255) NOT NULL,           

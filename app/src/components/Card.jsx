@@ -6,17 +6,12 @@ const Card = ({ title, description, link, userId, noteOwnerId, role }) => {
     <div className="card">
       <h2 className="card-title">{title}</h2>
       <p className="card-description">{description}</p>
-      {/* <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="card-link"
-      >
-        Open Note
-      </a> */}
       <div className="card-actions">
         {role === "teacher" && userId === noteOwnerId && (
-          <button className="card-button edit-button">Edit</button>
+          <>
+            <button className="card-button edit-button">Edit</button>
+            <button className="card-button delete-button">Delete</button>
+          </>
         )}
         {role === "student" && (
           <button className="card-button view-button">View</button>

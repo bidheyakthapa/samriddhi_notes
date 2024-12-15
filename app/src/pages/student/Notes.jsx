@@ -21,8 +21,8 @@ const notes = [
 ];
 
 const user = {
-  id: 1, // Current logged-in user ID
-  role: "student", // Current user's role
+  id: 1,
+  role: "student",
 };
 
 const Notes = () => {

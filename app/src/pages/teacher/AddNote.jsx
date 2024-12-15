@@ -2,36 +2,45 @@ import React, { useState } from "react";
 import "../../styles/addNote.css";
 
 const AddNote = () => {
-  const [formData, setFormData] = useState({ title: "", link: "" });
+  const [formData, setFormData] = useState({ title: "", desc: "", file: null });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState("");
 
+  // Handle changes in input fields
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
   };
 
+  // Handle file input change
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      setFormData({ ...formData, file });
+    } else {
+      setErrors({ ...errors, file: "Only PDF files are allowed." });
+    }
+  };
+
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Validation
     const newErrors = {};
     if (!formData.title) newErrors.title = "Title is required";
-    if (!formData.link) newErrors.link = "Link is required";
-    if (!/^https?:\/\/.+\..+/.test(formData.link)) {
-      newErrors.link = "Invalid URL format";
-    }
+    if (!formData.file) newErrors.file = "Please upload a PDF file.";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    // Form submission logic
     console.log("Note added:", formData);
     setSuccess("Note added successfully!");
 
-    // Reset form
-    setFormData({ title: "", desc: "", link: "" });
+    // Reset form after submission
+    setFormData({ title: "", desc: "", file: null });
     setErrors({});
   };
 
@@ -48,7 +57,7 @@ const AddNote = () => {
           onChange={handleChange}
         />
         {errors.title && <p style={{ color: "red" }}>{errors.title}</p>}
-        <br />
+
         <label htmlFor="desc">Description</label>
         <input
           type="text"
@@ -57,17 +66,17 @@ const AddNote = () => {
           value={formData.desc}
           onChange={handleChange}
         />
-        <label htmlFor="link">Link</label>
-        <input
-          type="text"
-          id="link"
-          placeholder="Paste the link (e.g., Google Drive, YouTube)"
-          value={formData.link}
-          onChange={handleChange}
-        />
-        {errors.link && <p style={{ color: "red" }}>{errors.link}</p>}
-        <br />
 
+        <label htmlFor="file">PDF File</label>
+        <input
+          type="file"
+          accept="application/pdf"
+          id="file"
+          onChange={handleFileChange}
+        />
+        {errors.file && <p style={{ color: "red" }}>{errors.file}</p>}
+
+        <br />
         <button type="submit">Add</button>
       </form>
 

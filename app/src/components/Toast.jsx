@@ -7,7 +7,7 @@ const Toast = ({ status, message, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-      onClose(); // Notify parent to reset the toast state after the toast disappears
+      onClose();
     }, 3000);
 
     return () => clearTimeout(timer);

@@ -4,7 +4,7 @@
 }
 
 .card {
-  width: 300px;
+  width: 250px;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -60,9 +60,16 @@
   background-color: #ffa500; /* Orange-yellow */
   color: white;
 }
+.delete-button {
+  background-color: #f44336; /* Orange-yellow */
+  color: white;
+}
 
 .edit-button:hover {
   background-color: #e59400; /* Slightly darker orange */
+}
+.delete-button:hover {
+  background-color: #e03a2e; /* Slightly darker orange */
 }
 
 .view-button {

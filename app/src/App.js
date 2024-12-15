@@ -1,11 +1,8 @@
 import {
   createBrowserRouter,
-  Route,
-  Routes,
-  BrowserRouter,
-  Outlet,
   RouterProvider,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import LogIn from "./pages/auth/LogIn";
 import NavBar from "./components/NavBar";
@@ -17,6 +14,8 @@ import Students from "./pages/admin/Students";
 import MyNotes from "./pages/teacher/MyNotes";
 import Notes from "./pages/student/Notes";
 import AddNote from "./pages/teacher/AddNote";
+import SingleNote from "./pages/student/SingleNote";
+import { ProtectedRoute, Unauthorized } from "./context/protectedRoute";
 
 const DLayout = () => {
   return (
@@ -40,35 +39,15 @@ const teacherMenu = [
 
 const studentMenu = [{ label: "Notes", path: "/student/notes" }];
 
-const Layout = ({ menuItems }) => {
-  return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      {/* Sidebar */}
-      <Sidebar items={menuItems} style={{ flex: "0" }} />
-
-      {/* Main content area */}
-      <div
-        style={{
-          flex: 1,
-          padding: "0 20px",
-          marginLeft: "250px",
-        }}
-      >
-        <NavBar />
-        <Outlet />
-      </div>
-    </div>
-  );
-};
-
 const router = createBrowserRouter([
+  // Default route
   {
     path: "/",
-    element: <DLayout />,
+    element: <DLayout />, // Wrap with a default layout for login/signup
     children: [
       {
         index: true,
-        element: <Navigate to="/login" />,
+        element: <Navigate to="/login" replace />, // Redirect to login by default
       },
       {
         path: "login",
@@ -80,10 +59,15 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // Admin routes
   {
     path: "/admin",
-    element: <Layout menuItems={adminMenu} />,
+    element: <ProtectedRoute allowedRoles={["admin"]} menuItems={adminMenu} />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="/admin/userreq" replace />,
+      },
       {
         path: "userreq",
         element: <UserReq />,
@@ -98,10 +82,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // Teacher routes
   {
     path: "/teacher",
-    element: <Layout menuItems={teacherMenu} />,
+    element: (
+      <ProtectedRoute allowedRoles={["teacher"]} menuItems={teacherMenu} />
+    ),
     children: [
+      {
+        index: true,
+        element: <Navigate to="/teacher/note" replace />,
+      },
       {
         path: "note",
         element: <MyNotes />,
@@ -112,15 +103,31 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // Student routes
   {
     path: "/student",
-    element: <Layout menuItems={studentMenu} />,
+    element: (
+      <ProtectedRoute allowedRoles={["student"]} menuItems={studentMenu} />
+    ),
     children: [
+      {
+        index: true,
+        element: <Navigate to="/student/notes" replace />,
+      },
       {
         path: "notes",
         element: <Notes />,
       },
+      {
+        path: "note/:id",
+        element: <SingleNote />,
+      },
     ],
+  },
+  // Unauthorized route
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
   },
 ]);
 
