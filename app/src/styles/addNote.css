@@ -42,6 +42,7 @@
 }
 
 .addNote button {
+  margin-top: 17px;
   padding: 10px 15px;
   background-color: #005695; /* Primary color for button */
   color: #fff;
@@ -69,6 +70,19 @@
 .addNote p[style="color: green"] {
   color: #5cb85c; /* Success message green */
   font-weight: bold;
+}
+
+.form-buttons .cancel-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.form-buttons .cancel-button:hover {
+  background-color: #d32f2f;
 }
 
 /* Responsive design */

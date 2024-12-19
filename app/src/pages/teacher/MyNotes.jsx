@@ -1,52 +1,74 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import Card from "../../components/Card";
-
-const notes = [
-  {
-    id: 1,
-    title: "React Basics",
-    description: "An introduction to React fundamentals.",
-    link: "https://reactjs.org/docs/getting-started.html",
-    noteOwnerId: 1,
-    role: "teacher",
-  },
-  {
-    id: 2,
-    title: "CSS Tips",
-    description: "Best practices for writing CSS.",
-    link: "https://developer.mozilla.org/en-US/docs/Learn/CSS",
-    noteOwnerId: 1,
-    role: "student",
-  },
-];
-
-const user = {
-  id: 1, // Current logged-in user ID
-  role: "teacher", // Current user's role
-};
+import { AuthContext } from "../../context/authContext";
 
 const MyNotes = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const res = await axios.get(
+          "http://localhost:8800/api/note/getNotesByTeacher",
+          {
+            params: { userId: currentUser.id },
+          }
+        );
+        setNotes(res.data);
+      } catch (err) {
+        console.error("Failed to fetch notes:", err);
+        setError("Failed to load notes. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotes();
+  }, [currentUser.id]);
+
+  const handleDelete = async (noteId) => {
+    try {
+      const res = await axios.delete(
+        "http://localhost:8800/api/note/deleteNote",
+        {
+          data: { noteId },
+        }
+      );
+      console.log(noteId);
+      if (res.status === 200) {
+        setNotes(notes.filter((note) => note.id !== noteId));
+      }
+    } catch (err) {
+      console.error("Failed to delete note", err);
+      setError("Failed to delete note. Please try again.");
+    }
+  };
+
+  if (loading) return <p>Loading notes...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+
   return (
     <div className="cards">
-      {notes
-        .filter((note) => {
-          // Show notes if user is a student or if the teacher owns the note
-          return (
-            user.role === "student" ||
-            (user.role === "teacher" && user.id === note.noteOwnerId)
-          );
-        })
-        .map((note) => (
-          <Card
-            key={note.id}
-            title={note.title}
-            description={note.description}
-            link={note.link}
-            userId={user.id}
-            noteOwnerId={note.noteOwnerId}
-            role={user.role}
-          />
-        ))}
+      {notes.map((note) => (
+        <Card
+          key={note.id}
+          noteId={note.id}
+          title={note.title}
+          description={note.description}
+          link={note.file}
+          userId={currentUser.id}
+          noteOwnerId={note.teacher_id}
+          role={currentUser.role}
+          handleDelete={handleDelete}
+        />
+      ))}
     </div>
   );
 };

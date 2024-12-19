@@ -38,7 +38,7 @@ const Students = () => {
   const handleDelete = async (row) => {
     try {
       await axios.delete(
-        `http://localhost:8800/api/user/deleteStudent/${row.id}`
+        `http://localhost:8800/api/user/deleteStudent/users/${row.id}`
       );
       setStudents(students.filter((item) => item.id !== row.id));
       setToast({ status: "success", message: "Student deleted successfully!" });

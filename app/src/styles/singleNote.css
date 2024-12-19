@@ -47,6 +47,29 @@
   gap: 1rem;
 }
 
+/* styles.css */
+.link-view-more {
+  color: #044fb1; /* Primary theme color */
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  padding: 8px 16px;
+  border: 1px solid #0349a4; /* Add a border matching the theme */
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.link-view-more:hover {
+  background-color: #073b7e; /* Change background on hover */
+  color: #ffffff; /* Contrast text color */
+  text-decoration: none;
+}
+
+.link-view-more:focus {
+  outline: 2px solid #1a73e8; /* Accessibility focus ring */
+  outline-offset: 2px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .notesContainer {

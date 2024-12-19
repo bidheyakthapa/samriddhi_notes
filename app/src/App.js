@@ -8,14 +8,13 @@ import LogIn from "./pages/auth/LogIn";
 import NavBar from "./components/NavBar";
 import SignUp from "./pages/auth/SignUp";
 import UserReq from "./pages/admin/UserReq";
-import Sidebar from "./components/Sidebar";
 import Teachers from "./pages/admin/Teachers";
 import Students from "./pages/admin/Students";
 import MyNotes from "./pages/teacher/MyNotes";
 import Notes from "./pages/student/Notes";
-import AddNote from "./pages/teacher/AddNote";
 import SingleNote from "./pages/student/SingleNote";
 import { ProtectedRoute, Unauthorized } from "./context/protectedRoute";
+import AddEditNote from "./pages/teacher/AddEditNote";
 
 const DLayout = () => {
   return (
@@ -99,7 +98,11 @@ const router = createBrowserRouter([
       },
       {
         path: "addNote",
-        element: <AddNote />,
+        element: <AddEditNote />,
+      },
+      {
+        path: "editNote/:noteId",
+        element: <AddEditNote />,
       },
     ],
   },

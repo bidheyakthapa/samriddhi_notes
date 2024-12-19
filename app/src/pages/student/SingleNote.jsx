@@ -1,65 +1,80 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import "../../styles/singleNote.css";
 import Card from "../../components/Card";
-
-const notes = [
-  {
-    id: 1,
-    title: "React Basics",
-    description: "An introduction to React fundamentals.",
-    link: "https://reactjs.org/docs/getting-started.html",
-    noteOwnerId: 1,
-    role: "teacher",
-  },
-  {
-    id: 2,
-    title: "CSS Tips",
-    description: "Best practices for writing CSS.",
-    link: "https://developer.mozilla.org/en-US/docs/Learn/CSS",
-    noteOwnerId: 2,
-    role: "teacher",
-  },
-  {
-    id: 2,
-    title: "CSS Tips",
-    description: "Best practices for writing CSS.",
-    link: "https://developer.mozilla.org/en-US/docs/Learn/CSS",
-    noteOwnerId: 2,
-    role: "teacher",
-  },
-  {
-    id: 2,
-    title: "CSS Tips",
-    description: "Best practices for writing CSS.",
-    link: "https://developer.mozilla.org/en-US/docs/Learn/CSS",
-    noteOwnerId: 2,
-    role: "teacher",
-  },
-];
+import { AuthContext } from "../../context/authContext";
 
 const SingleNote = () => {
-  const note = notes.find((note) => note.id === 1); // Current note
-  const relevantNotes = notes.filter((n) => n.id !== 1); // Other notes
+  const { id } = useParams();
+  const [note, setNote] = useState(null);
+  const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [relatedNotes, setRelatedNotes] = useState([]);
+
+  useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/note/getNoteById/${id}`
+        );
+        setNote(response.data);
+      } catch (err) {
+        console.error("Error fetching note:", err);
+      }
+    };
+
+    const fetchRelatedNotes = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/note/getNotes`
+        );
+        setRelatedNotes(response.data.filter((n) => n.id !== parseInt(id)));
+      } catch (err) {
+        console.error("Error fetching related notes:", err);
+      }
+    };
+
+    fetchNote();
+    fetchRelatedNotes();
+  }, [id]);
+
+  const handleViewClick = (noteId) => {
+    navigate(`/student/note/${noteId}`);
+  };
 
   return (
     <div className="notesContainer">
       <div className="singleNote">
         <h1>{note ? note.title : "Note not found"}</h1>
         <p>{note ? note.description : ""}</p>
-        <iframe src={note?.link} width={1000} height={700}></iframe>
+        {note && note.file && (
+          <iframe
+            src={`/upload/${note.file}`}
+            width={1000}
+            height={700}
+            title="Note PDF"
+          />
+        )}
       </div>
       <div className="relevantNotes">
-        {relevantNotes.map((relNote) => (
+        <h3>Related Notes</h3>
+        {relatedNotes.map((relNote) => (
           <Card
             key={relNote.id}
             title={relNote.title}
             description={relNote.description}
-            link={relNote.link}
-            userId={1} // Example userId; replace with actual userId
-            noteOwnerId={relNote.noteOwnerId}
-            role="student" // Example role; replace based on actual role
+            file={relNote.file}
+            noteId={relNote.id}
+            userId={currentUser.id}
+            role={currentUser.role}
+            handleViewClick={handleViewClick}
           />
         ))}
+        <Link to="/student/notes" className="link-view-more">
+          View More...
+        </Link>
       </div>
     </div>
   );

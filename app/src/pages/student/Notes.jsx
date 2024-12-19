@@ -1,31 +1,49 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Card from "../../components/Card";
-
-const notes = [
-  {
-    id: 1,
-    title: "React Basics",
-    description: "An introduction to React fundamentals.",
-    link: "https://reactjs.org/docs/getting-started.html",
-    noteOwnerId: 1,
-    role: "teacher",
-  },
-  {
-    id: 2,
-    title: "CSS Tips",
-    description: "Best practices for writing CSS.",
-    link: "https://developer.mozilla.org/en-US/docs/Learn/CSS",
-    noteOwnerId: 2,
-    role: "teacher",
-  },
-];
-
-const user = {
-  id: 1,
-  role: "student",
-};
+import { AuthContext } from "../../context/authContext";
 
 const Notes = () => {
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8800/api/note/getNotesByFaculty",
+          {
+            params: { faculty: currentUser.faculty },
+          }
+        );
+        setNotes(response.data);
+      } catch (err) {
+        setError("Failed to load notes.");
+        console.error("Error fetching notes:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotes();
+  }, [currentUser.faculty]);
+
+  const handleViewClick = (noteId) => {
+    navigate(`/student/note/${noteId}`);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="cards">
       {notes.map((note) => (
@@ -33,10 +51,11 @@ const Notes = () => {
           key={note.id}
           title={note.title}
           description={note.description}
-          link={note.link}
-          userId={user.id}
-          noteOwnerId={note.noteOwnerId}
-          role={user.role}
+          file={note.file}
+          noteId={note.id}
+          userId={currentUser.id}
+          role={currentUser.role}
+          handleViewClick={handleViewClick}
         />
       ))}
     </div>
