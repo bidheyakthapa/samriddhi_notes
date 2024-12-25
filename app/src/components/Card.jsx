@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Card = ({
   title,
   description,
-  link,
+  file,
   userId,
   noteOwnerId,
   role,
@@ -25,6 +25,10 @@ const Card = ({
 
   return (
     <div className="card">
+      <div className="iframe-container">
+        <iframe src={`/upload/${file}`} title={title} />
+      </div>
+
       <h2 className="card-title">{title}</h2>
       <p className="card-description">{description}</p>
       <div className="card-actions">

@@ -2,17 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../../components/Card";
 import { AuthContext } from "../../context/authContext";
+import Popup from "../../components/Popup";
+import Toast from "../../components/Toast";
 
 const MyNotes = () => {
   const { currentUser } = useContext(AuthContext);
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const [actionType, setActionType] = useState("");
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const fetchNotes = async () => {
       setLoading(true);
-      setError("");
 
       try {
         const res = await axios.get(
@@ -23,8 +27,10 @@ const MyNotes = () => {
         );
         setNotes(res.data);
       } catch (err) {
-        console.error("Failed to fetch notes:", err);
-        setError("Failed to load notes. Please try again.");
+        setToast({
+          status: "error",
+          message: "Failed to load notes. Please try again.",
+        });
       } finally {
         setLoading(false);
       }
@@ -41,18 +47,33 @@ const MyNotes = () => {
           data: { noteId },
         }
       );
-      console.log(noteId);
       if (res.status === 200) {
         setNotes(notes.filter((note) => note.id !== noteId));
+        setToast({ status: "success", message: "Note deleted successfully!" });
       }
     } catch (err) {
       console.error("Failed to delete note", err);
-      setError("Failed to delete note. Please try again.");
+      setToast({
+        status: "error",
+        message: "Failed to delete note. Please try again.",
+      });
     }
   };
 
+  const handleConfirmAction = () => {
+    if (actionType === "delete") {
+      handleDelete(selectedNoteId);
+    }
+    setShowPopup(false);
+  };
+
+  const handleAction = (noteId, type) => {
+    setSelectedNoteId(noteId);
+    setActionType(type);
+    setShowPopup(true);
+  };
+
   if (loading) return <p>Loading notes...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div className="cards">
@@ -62,13 +83,29 @@ const MyNotes = () => {
           noteId={note.id}
           title={note.title}
           description={note.description}
-          link={note.file}
+          file={note.file}
           userId={currentUser.id}
           noteOwnerId={note.teacher_id}
           role={currentUser.role}
-          handleDelete={handleDelete}
+          handleDelete={() => handleAction(note.id, "delete")}
         />
       ))}
+
+      {toast && (
+        <Toast
+          status={toast.status}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      {showPopup && (
+        <Popup
+          type={actionType}
+          onClose={() => setShowPopup(false)}
+          onConfirm={handleConfirmAction}
+        />
+      )}
     </div>
   );
 };

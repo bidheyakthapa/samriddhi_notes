@@ -3,6 +3,7 @@ import axios from "axios";
 import Table from "../../components/Table";
 import Toast from "../../components/Toast";
 import EditForm from "../../components/EditForm";
+import Popup from "../../components/Popup";
 
 const Teachers = () => {
   const [teachers, setTeachers] = useState([]);
@@ -11,6 +12,8 @@ const Teachers = () => {
   const [toast, setToast] = useState(null);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -37,11 +40,16 @@ const Teachers = () => {
 
   const handleDelete = async (row) => {
     try {
-      await axios.delete(
-        `http://localhost:8800/api/user/deleteTeacher/users/${row.id}`
-      );
-      setTeachers(teachers.filter((item) => item.id !== row.id));
-      setToast({ status: "success", message: "Teacher deleted successfully!" });
+      if (studentToDelete) {
+        await axios.delete(
+          `http://localhost:8800/api/user/deleteTeacher/users/${row.id}`
+        );
+        setTeachers(teachers.filter((item) => item.id !== row.id));
+        setToast({
+          status: "success",
+          message: "Teacher deleted successfully!",
+        });
+      }
     } catch (error) {
       setToast({
         status: "error",
@@ -50,6 +58,7 @@ const Teachers = () => {
           : "Failed to delete teacher.",
       });
     }
+    setShowPopup(false);
   };
 
   const actions = (row) => (
@@ -57,7 +66,7 @@ const Teachers = () => {
       <button className="edit" onClick={() => handleEdit(row)}>
         Edit
       </button>
-      <button className="delete" onClick={() => handleDelete(row)}>
+      <button className="delete" onClick={() => handleAction("delete", row)}>
         Delete
       </button>
     </>
@@ -112,6 +121,19 @@ const Teachers = () => {
     return <div>No teachers found.</div>;
   }
 
+  const handleConfirmAction = () => {
+    if (studentToDelete) {
+      handleDelete();
+    }
+  };
+
+  const handleAction = (type, row) => {
+    if (type === "delete") {
+      setStudentToDelete(row);
+      setShowPopup(true);
+    }
+  };
+
   return (
     <div className="teachers">
       <h1 style={{ marginTop: "15px" }}>Teachers</h1>
@@ -130,6 +152,14 @@ const Teachers = () => {
           data={selectedTeacher}
           onClose={() => setIsFormOpen(false)}
           handleEdit={handleFormSubmit}
+        />
+      )}
+
+      {showPopup && (
+        <Popup
+          type="delete"
+          onClose={() => setShowPopup(false)}
+          onConfirm={handleConfirmAction}
         />
       )}
     </div>

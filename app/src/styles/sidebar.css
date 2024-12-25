@@ -1,5 +1,11 @@
+/* Sidebar Styles */
 .sideBar {
   position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  transition: transform 0.3s ease-in-out;
+  z-index: 100; /* Ensure it's above content but below toggle button */
 }
 
 .sideBar aside {
@@ -57,4 +63,43 @@
 
 .logoutButton:hover {
   background-color: #003c5b;
+}
+
+/* Mobile Layout - Sidebar Hidden by Default */
+@media (max-width: 768px) {
+  /* Hide sidebar by default */
+  .sideBar {
+    transform: translateX(-100%); /* Sidebar off-screen */
+  }
+
+  .sideBar.open {
+    transform: translateX(0); /* Sidebar visible */
+  }
+
+  .toggleButton {
+    position: fixed;
+    top: 15px;
+    left: 25px;
+    background-color: #005695;
+    color: white;
+    border: none;
+    font-size: 25px;
+    line-height: 2rem;
+    padding: 0 3px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  .sideBar.open + .toggleButton {
+    display: none;
+  }
+
+  .sideBar {
+    display: none;
+  }
+
+  /* Display the sidebar when open */
+  .sideBar.open {
+    display: block;
+  }
 }

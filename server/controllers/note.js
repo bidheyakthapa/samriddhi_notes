@@ -1,4 +1,6 @@
 import { db } from "../db.js";
+import fs from "fs";
+import path from "path";
 
 export const addNote = (req, res) => {
   const q =
@@ -88,21 +90,47 @@ export const getNotesByTeacher = (req, res) => {
 
 export const deleteNote = (req, res) => {
   const { noteId } = req.body;
+
   if (!noteId) {
     return res.status(400).json("Note ID is required.");
   }
 
-  const q = "DELETE FROM notes WHERE id = ?";
-
-  db.query(q, [noteId], (err, data) => {
+  const getFileQuery = "SELECT file FROM notes WHERE id = ?";
+  db.query(getFileQuery, [noteId], (err, results) => {
     if (err) {
-      console.error("Error: ", err);
-      return res.status(500).json("Failed to delete note.");
+      console.error("Error fetching file path: ", err);
+      return res.status(500).json("Failed to fetch file path.");
     }
-    if (data.affectedRows === 0) {
+
+    if (results.length === 0) {
       return res.status(404).json("Note not found.");
     }
-    return res.status(200).json("Note deleted successfully!");
+
+    const fileName = results[0].file;
+    const filePath = path.join("../app/public/upload", fileName);
+
+    const deleteNoteQuery = "DELETE FROM notes WHERE id = ?";
+    db.query(deleteNoteQuery, [noteId], (deleteErr, deleteData) => {
+      if (deleteErr) {
+        console.error("Error deleting note: ", deleteErr);
+        return res.status(500).json("Failed to delete note.");
+      }
+
+      if (deleteData.affectedRows === 0) {
+        return res.status(404).json("Note not found.");
+      }
+
+      fs.unlink(filePath, (unlinkErr) => {
+        if (unlinkErr) {
+          console.error("Error deleting file: ", unlinkErr);
+          return res
+            .status(500)
+            .json("Note deleted, but failed to delete the file.");
+        }
+
+        return res.status(200).json("Note and file deleted successfully!");
+      });
+    });
   });
 };
 

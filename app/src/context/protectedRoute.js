@@ -29,14 +29,40 @@ export const Unauthorized = () => {
 
 export const Layout = ({ menuItems }) => {
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar items={menuItems} style={{ flex: "0 0 250px" }} />
-      <div style={{ flex: 1, padding: "0 20px", marginLeft: "250px" }}>
+    <div style={{ display: "flex", height: "100vh", position: "relative" }}>
+      <Sidebar
+        items={menuItems}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 10,
+        }}
+      />
+
+      <div className="con">
         <NavBar />
         <div style={{ marginTop: "20px" }}>
           <Outlet />
         </div>
       </div>
+
+      <style>
+        {`
+          .con {
+            flex: 1;
+            padding: 0 20px;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+          }
+
+          @media (max-width: 768px) {
+            .con {
+              margin-left: 0; 
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };

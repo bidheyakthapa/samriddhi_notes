@@ -4,6 +4,7 @@ import "../../styles/addNote.css";
 import { AuthContext } from "../../context/authContext";
 import Toast from "../../components/Toast";
 import { useParams, useNavigate } from "react-router-dom";
+import Popup from "../../components/Popup";
 
 const AddEditNote = () => {
   const [title, setTitle] = useState("");
@@ -13,6 +14,8 @@ const AddEditNote = () => {
   const { currentUser } = useContext(AuthContext);
   const { noteId } = useParams();
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [actionType, setActionType] = useState("");
 
   const isEditMode = noteId !== undefined;
 
@@ -127,7 +130,7 @@ const AddEditNote = () => {
 
       setTitle("");
       setDesc("");
-      setFile(null);
+      setFile("");
 
       // navigate("/teacher/note");
     } catch (err) {
@@ -141,6 +144,22 @@ const AddEditNote = () => {
 
   const handleCancel = () => {
     navigate(-1);
+  };
+
+  const handleConfirmAction = () => {
+    if (actionType === "edit") {
+      handleSubmit(new Event("submit"));
+    }
+    setShowPopup(false);
+  };
+
+  const handleAction = (type) => {
+    if (isEditMode) {
+      setActionType(type);
+      setShowPopup(true);
+    } else {
+      handleSubmit(new Event("submit"));
+    }
   };
 
   return (
@@ -173,7 +192,7 @@ const AddEditNote = () => {
         />
 
         <div className="form-buttons">
-          <button type="submit">
+          <button type="button" onClick={() => handleAction("edit")}>
             {isEditMode ? "Update Note" : "Add Note"}
           </button>
 
@@ -195,6 +214,14 @@ const AddEditNote = () => {
           status={toastMessage.status}
           message={toastMessage.message}
           onClose={() => setToastMessage(null)}
+        />
+      )}
+
+      {showPopup && (
+        <Popup
+          type={actionType}
+          onClose={() => setShowPopup(false)}
+          onConfirm={handleConfirmAction}
         />
       )}
     </div>

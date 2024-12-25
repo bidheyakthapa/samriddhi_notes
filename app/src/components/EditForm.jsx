@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/editForm.css";
+import Popup from "./Popup";
 
 const EditForm = ({ data, onClose, handleEdit }) => {
   const [formData, setFormData] = useState({
@@ -9,8 +10,7 @@ const EditForm = ({ data, onClose, handleEdit }) => {
     faculty: "",
     role: "",
   });
-
-  const [errors, setErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -28,15 +28,15 @@ const EditForm = ({ data, onClose, handleEdit }) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const dataToSubmit = { ...formData, id: formData.id };
-    try {
-      handleEdit(dataToSubmit);
-      onClose();
-    } catch (error) {
-      setErrors({ general: "Failed to submit the form. Try again later." });
-    }
+    setShowPopup(true); // Show confirmation popup
+  };
+
+  const handleConfirm = () => {
+    handleEdit(formData); // Call the edit function
+    setShowPopup(false);
+    onClose();
   };
 
   return (
@@ -57,7 +57,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
             onChange={handleChange}
             placeholder="Enter name"
           />
-          {errors.name && <div className="error">{errors.name}</div>}
 
           <label htmlFor="email">Email</label>
           <input
@@ -68,7 +67,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
             onChange={handleChange}
             placeholder="Enter email"
           />
-          {errors.email && <div className="error">{errors.email}</div>}
 
           <label htmlFor="faculty">Faculty</label>
           <select
@@ -81,7 +79,6 @@ const EditForm = ({ data, onClose, handleEdit }) => {
             <option value="BCA">BCA</option>
             <option value="CSIT">CSIT</option>
           </select>
-          {errors.faculty && <div className="error">{errors.faculty}</div>}
 
           <label htmlFor="role">Role</label>
           <select
@@ -94,10 +91,17 @@ const EditForm = ({ data, onClose, handleEdit }) => {
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
           </select>
-          {errors.role && <div className="error">{errors.role}</div>}
 
           <input type="submit" value="Submit" />
         </form>
+
+        {showPopup && (
+          <Popup
+            type="edit"
+            onConfirm={handleConfirm}
+            onClose={() => setShowPopup(false)}
+          />
+        )}
       </div>
     </div>
   );

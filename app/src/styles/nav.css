@@ -1,7 +1,22 @@
+/* Default styles for larger screens */
 .nav h1 {
   text-align: center;
   background-color: #e4fbff;
   color: #005695;
   font-size: 42px;
   padding: 5px;
+}
+
+@media (max-width: 768px) {
+  .nav h1 {
+    font-size: 32px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav h1 {
+    font-size: 24px;
+    padding: 15px;
+  }
 }

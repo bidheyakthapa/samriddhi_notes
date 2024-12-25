@@ -28,7 +28,10 @@ const SingleNote = () => {
     const fetchRelatedNotes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8800/api/note/getNotes`
+          `http://localhost:8800/api/note/getNotesByFaculty`,
+          {
+            params: { faculty: currentUser.faculty },
+          }
         );
         setRelatedNotes(response.data.filter((n) => n.id !== parseInt(id)));
       } catch (err) {
@@ -38,11 +41,14 @@ const SingleNote = () => {
 
     fetchNote();
     fetchRelatedNotes();
-  }, [id]);
+  }, [id, currentUser.faculty]);
 
   const handleViewClick = (noteId) => {
     navigate(`/student/note/${noteId}`);
   };
+
+  const limitedRelatedNotes = relatedNotes.slice(0, 3);
+  console.log("relatedNotes", limitedRelatedNotes);
 
   return (
     <div className="notesContainer">
@@ -60,7 +66,7 @@ const SingleNote = () => {
       </div>
       <div className="relevantNotes">
         <h3>Related Notes</h3>
-        {relatedNotes.map((relNote) => (
+        {limitedRelatedNotes.map((relNote) => (
           <Card
             key={relNote.id}
             title={relNote.title}
