@@ -192,7 +192,11 @@ const AddEditNote = () => {
         />
 
         <div className="form-buttons">
-          <button type="button" onClick={() => handleAction("edit")}>
+          <button
+            type="button"
+            className="add"
+            onClick={() => handleAction("edit")}
+          >
             {isEditMode ? "Update Note" : "Add Note"}
           </button>
 
@@ -201,7 +205,7 @@ const AddEditNote = () => {
             <button
               type="button"
               onClick={handleCancel}
-              className=" cancel-button"
+              className="cancel-button"
             >
               Cancel
             </button>
