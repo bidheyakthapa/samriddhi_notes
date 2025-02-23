@@ -43,7 +43,7 @@
 .addNote textarea:focus,
 .addNote input[type="file"]:focus {
   outline: none;
-  border-color: #3182ce;
+  border-color: #005695;
 }
 
 .addNote textarea {
@@ -52,8 +52,8 @@
 }
 
 .addNote .form-buttons .add {
-  padding: 12px 20px;
-  background: linear-gradient(145deg, #3182ce, #2b6cb0);
+  padding: 10px 15px;
+  background: #005695;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -66,7 +66,7 @@
 }
 
 .addNote .form-buttons .add:hover {
-  background: linear-gradient(145deg, #2b6cb0, #3182ce);
+  background: #004080;
   box-shadow: 0 4px 8px rgba(49, 130, 206, 0.4);
 }
 
@@ -77,9 +77,9 @@
 }
 
 .form-buttons .cancel-button {
-  background: linear-gradient(145deg, #e53e3e, #c53030);
+  background: #f44336;
   color: white;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border: none;
   cursor: pointer;
   border-radius: 8px;
@@ -87,8 +87,7 @@
 }
 
 .form-buttons .cancel-button:hover {
-  background: linear-gradient(145deg, #c53030, #e53e3e);
-  box-shadow: 0 4px 8px rgba(229, 62, 62, 0.4);
+  background: #e53935;
 }
 
 @media (max-width: 768px) {

@@ -1,57 +1,59 @@
 import bcrypt from "bcryptjs";
 import { db } from "./db.js";
 
-const users = [
-  {
-    name: "Admin User",
-    email: "admin@gmail.com",
-    password: "admin123",
-    faculty: "N/A",
-    role: "admin",
-  },
-  {
-    name: "Teacher User",
-    email: "teacher@gmail.com",
-    password: "teacher123",
-    faculty: "Science",
-    role: "teacher",
-  },
-  {
-    name: "Student User",
-    email: "student@gmail.com",
-    password: "student123",
-    faculty: "Science",
-    role: "student",
-  },
-];
-
-async function seedUsers() {
+const seedData = async () => {
   try {
+    const hashedPasswords = await Promise.all([
+      bcrypt.hash("admin123", 10),
+      bcrypt.hash("teacher123", 10),
+      bcrypt.hash("student123", 10),
+    ]);
+
+    const users = [
+      {
+        name: "Admin",
+        email: "admin@example.com",
+        password: hashedPasswords[0],
+        faculty: "admin",
+        role: "admin",
+      },
+      {
+        name: "Teacher",
+        email: "teacher@example.com",
+        password: hashedPasswords[1],
+        faculty: "BCA",
+        role: "teacher",
+      },
+      {
+        name: "Student",
+        email: "student@example.com",
+        password: hashedPasswords[2],
+        faculty: "BCA",
+        role: "student",
+      },
+    ];
+
     for (const user of users) {
-      const hashedPassword = await bcrypt.hash(user.password, 10);
-
-      const query = `INSERT INTO users (name, email, password, faculty, role) VALUES (?, ?, ?, ?, ?)`;
-      const values = [
-        user.name,
-        user.email,
-        hashedPassword,
-        user.faculty,
-        user.role,
-      ];
-
-      db.query(query, values, (err) => {
-        if (err) {
-          console.error("Error inserting user:", err);
-        } else {
-          console.log(`User with role ${user.role} inserted successfully.`);
-        }
+      const query =
+        "INSERT INTO users (name, email, password, faculty, role) VALUES (?, ?, ?, ?, ?)";
+      await new Promise((resolve, reject) => {
+        db.query(
+          query,
+          [user.name, user.email, user.password, user.faculty, user.role],
+          (err) => {
+            if (err) reject(err);
+            resolve();
+          }
+        );
       });
     }
+
+    console.log("Seed data inserted successfully.");
   } catch (error) {
-    console.error("Error during seeding:", error);
+    console.error("Error seeding data:", error);
   } finally {
     db.end();
   }
-}
+};
 
-seedUsers();
+seedData();

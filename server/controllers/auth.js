@@ -8,7 +8,7 @@ export const register = (req, res) => {
   const schema = Joi.object({
     name: Joi.string()
       .required()
-      .pattern(/^[A-Za-z]+$/)
+      .pattern(/^[A-Za-z\s]+$/)
       .messages({
         "string.pattern.base": "Name must contain only alphabets.",
       }),
