@@ -6,7 +6,12 @@ import jwt from "jsonwebtoken";
 export const register = (req, res) => {
   // Validate Input
   const schema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string()
+      .required()
+      .pattern(/^[A-Za-z]+$/)
+      .messages({
+        "string.pattern.base": "Name must contain only alphabets.",
+      }),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
     faculty: Joi.string().required(),

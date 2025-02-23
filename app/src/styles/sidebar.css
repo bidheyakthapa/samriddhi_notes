@@ -1,11 +1,10 @@
-/* Sidebar Styles */
 .sideBar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   transition: transform 0.3s ease-in-out;
-  z-index: 100; /* Ensure it's above content but below toggle button */
+  z-index: 100;
 }
 
 .sideBar aside {
@@ -65,15 +64,13 @@
   background-color: #003c5b;
 }
 
-/* Mobile Layout - Sidebar Hidden by Default */
 @media (max-width: 768px) {
-  /* Hide sidebar by default */
   .sideBar {
-    transform: translateX(-100%); /* Sidebar off-screen */
+    transform: translateX(-100%);
   }
 
   .sideBar.open {
-    transform: translateX(0); /* Sidebar visible */
+    transform: translateX(0);
   }
 
   .toggleButton {

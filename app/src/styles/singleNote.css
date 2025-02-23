@@ -1,15 +1,13 @@
-/* Main Container */
 .notesContainer {
   display: flex;
-  justify-content: space-between; /* Space between iframe and cards */
-  align-items: flex-start; /* Align items at the top */
-  gap: 1.5rem; /* Space between columns */
-  flex-wrap: wrap; /* Ensure wrapping of elements on smaller screens */
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
-/* Main Note Section */
 .singleNote {
-  flex: 3; /* Allow iframe section to take more space */
+  flex: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -17,8 +15,8 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%; /* Ensure it spans full width in mobile */
-  box-sizing: border-box; /* Include padding in width calculation */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .singleNote h1 {
@@ -44,62 +42,58 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Relevant Notes Section */
 .relevantNotes {
-  flex: 1; /* Allow the relevant notes to take the remaining space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-/* styles.css */
 .link-view-more {
-  color: #044fb1; /* Primary theme color */
+  color: #044fb1;
   font-weight: bold;
   text-decoration: none;
   text-align: center;
   padding: 8px 16px;
-  border: 1px solid #0349a4; /* Add a border matching the theme */
+  border: 1px solid #0349a4;
   border-radius: 4px;
   transition: all 0.3s ease;
 }
 
 .link-view-more:hover {
-  background-color: #073b7e; /* Change background on hover */
-  color: #ffffff; /* Contrast text color */
+  background-color: #073b7e;
+  color: #ffffff;
   text-decoration: none;
 }
 
 .link-view-more:focus {
-  outline: 2px solid #1a73e8; /* Accessibility focus ring */
+  outline: 2px solid #1a73e8;
   outline-offset: 2px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .notesContainer {
-    flex-direction: column; /* Stack items on smaller screens */
-    gap: 2rem; /* Increase space between stacked sections */
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .singleNote {
-    max-width: 100%; /* Allow iframe to span full width */
-    flex: 0 1 auto; /* Prevent it from shrinking */
+    max-width: 100%;
+    flex: 0 1 auto;
   }
 
   .singleNote iframe {
-    height: 500px; /* Adjust height for mobile view */
+    height: 500px;
   }
 
   .relevantNotes {
-    flex-direction: column; /* Stack cards vertically */
+    flex-direction: column;
     gap: 1rem;
     justify-content: center;
-    width: 100%; /* Ensure this spans full width */
+    width: 100%;
   }
 
-  /* Center the View More button on mobile */
   .link-view-more {
-    align-self: center; /* Center button horizontally */
+    align-self: center;
   }
 }

@@ -13,7 +13,7 @@ const Teachers = () => {
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState(null);
+  const [teacherToDelete, setTeacherToDelete] = useState(null);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -38,17 +38,18 @@ const Teachers = () => {
     { label: "Faculty", key: "faculty" },
   ];
 
-  const handleDelete = async (row) => {
+  const handleDelete = async () => {
     try {
-      if (studentToDelete) {
+      if (teacherToDelete) {
         await axios.delete(
-          `http://localhost:8800/api/user/deleteTeacher/users/${row.id}`
+          `http://localhost:8800/api/user/deleteTeacher/users/${teacherToDelete.id}`
         );
-        setTeachers(teachers.filter((item) => item.id !== row.id));
+        setTeachers(teachers.filter((item) => item.id !== teacherToDelete.id));
         setToast({
           status: "success",
           message: "Teacher deleted successfully!",
         });
+        setTeacherToDelete(null);
       }
     } catch (error) {
       setToast({
@@ -79,11 +80,11 @@ const Teachers = () => {
 
   const handleFormSubmit = async (updatedData) => {
     try {
-      console.log("Updated Data:", updatedData);
       await axios.put(
         `http://localhost:8800/api/user/editUser/${updatedData.id}`,
         updatedData
       );
+
       if (updatedData.role !== "teacher") {
         setTeachers(
           teachers.filter((teacher) => teacher.id !== updatedData.id)
@@ -122,14 +123,14 @@ const Teachers = () => {
   }
 
   const handleConfirmAction = () => {
-    if (studentToDelete) {
+    if (teacherToDelete) {
       handleDelete();
     }
   };
 
   const handleAction = (type, row) => {
     if (type === "delete") {
-      setStudentToDelete(row);
+      setTeacherToDelete(row);
       setShowPopup(true);
     }
   };
@@ -146,7 +147,6 @@ const Teachers = () => {
         />
       )}
 
-      {/* Conditionally render the Edit Form */}
       {isFormOpen && selectedTeacher && (
         <EditForm
           data={selectedTeacher}

@@ -74,26 +74,26 @@
 }
 
 .edit-button {
-  background-color: #ffa500; /* Orange-yellow */
+  background-color: #ffa500;
   color: white;
 }
 .delete-button {
-  background-color: #f44336; /* Orange-yellow */
+  background-color: #f44336;
   color: white;
 }
 
 .edit-button:hover {
-  background-color: #e59400; /* Slightly darker orange */
+  background-color: #e59400;
 }
 .delete-button:hover {
-  background-color: #e03a2e; /* Slightly darker orange */
+  background-color: #e03a2e;
 }
 
 .view-button {
-  background-color: #005695; /* Blue */
+  background-color: #005695;
   color: white;
 }
 
 .view-button:hover {
-  background-color: #004080; /* Darker blue */
+  background-color: #004080;
 }

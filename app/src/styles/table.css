@@ -21,7 +21,7 @@
 }
 
 .table tr:hover {
-  background-color: #f4f4f4; /* Light gray for hover effect */
+  background-color: #f4f4f4;
 }
 
 .table button {
@@ -35,15 +35,15 @@
 }
 
 .table button.accept {
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50;
 }
 
 .table button.delete {
-  background-color: #f44336; /* Red */
+  background-color: #f44336;
 }
 
 .table button.edit {
-  background-color: #ff9800; /* Orangy Yellow */
+  background-color: #ff9800;
 }
 
 .table button:hover {

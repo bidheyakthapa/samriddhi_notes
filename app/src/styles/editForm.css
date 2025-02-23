@@ -7,7 +7,7 @@
   padding: 20px 30px 30px;
   border-radius: 10px;
   box-shadow: 0px 6px 12px rgba(72, 122, 157, 0.397);
-  z-index: 20; /* Ensures the form stays above other elements */
+  z-index: 20;
   max-height: 80vh;
   width: 400px;
 }

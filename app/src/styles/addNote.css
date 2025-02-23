@@ -1,19 +1,20 @@
-/* Add this to a CSS file like AddNote.css */
 .addNote {
   max-width: 500px;
-  margin: 50px auto; /* Centers the form horizontally and adds spacing at the top */
+  margin: 50px auto;
   padding: 20px;
-  background-color: #f9f9f9; /* Light background for the form */
-  border: 1px solid #ddd;
-  border-radius: 10px; /* Smooth corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background: linear-gradient(145deg, #ffffff, #f3f4f6);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 -1px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
 }
 
 .addNote h1 {
-  font-size: 24px;
+  font-size: 26px;
   text-align: center;
   margin-bottom: 20px;
-  color: #333; /* Dark text color */
+  color: #1a202c;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .addNote form {
@@ -23,71 +24,81 @@
 
 .addNote label {
   font-size: 14px;
-  margin-bottom: 5px;
-  color: #555; /* Subtle label color */
+  margin-bottom: 8px;
+  color: #4a5568;
+  font-weight: 500;
 }
 
-.addNote input[type="text"] {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.addNote input[type="text"],
+.addNote textarea,
+.addNote input[type="file"] {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   margin-bottom: 15px;
 }
 
-.addNote input[type="text"]:focus {
+.addNote input[type="text"]:focus,
+.addNote textarea:focus,
+.addNote input[type="file"]:focus {
   outline: none;
-  border-color: #005695; /* Highlight on focus */
-  box-shadow: 0 0 5px rgba(0, 86, 149, 0.5);
+  border-color: #3182ce;
 }
 
-.addNote button {
-  margin-top: 17px;
-  padding: 10px 15px;
-  background-color: #005695; /* Primary color for button */
-  color: #fff;
+.addNote textarea {
+  min-height: 50px;
+  resize: vertical;
+}
+
+.addNote .form-buttons .add {
+  padding: 12px 20px;
+  background: linear-gradient(145deg, #3182ce, #2b6cb0);
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease-in-out;
 }
 
-.addNote button:hover {
-  background-color: #004080; /* Darker shade on hover */
+.addNote .form-buttons .add:hover {
+  background: linear-gradient(145deg, #2b6cb0, #3182ce);
+  box-shadow: 0 4px 8px rgba(49, 130, 206, 0.4);
 }
 
-.addNote p {
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.addNote p[style="color: red"] {
-  color: #d9534f; /* Error message red */
-  font-weight: bold;
-}
-
-.addNote p[style="color: green"] {
-  color: #5cb85c; /* Success message green */
-  font-weight: bold;
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .form-buttons .cancel-button {
-  background-color: #f44336;
+  background: linear-gradient(145deg, #e53e3e, #c53030);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
   cursor: pointer;
-  margin-left: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
 }
 
 .form-buttons .cancel-button:hover {
-  background-color: #d32f2f;
+  background: linear-gradient(145deg, #c53030, #e53e3e);
+  box-shadow: 0 4px 8px rgba(229, 62, 62, 0.4);
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .addNote {
-    width: 90%; /* Shrinks the form for smaller screens */
+    width: 70%;
+    padding: 20px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    gap: 15px;
   }
 }

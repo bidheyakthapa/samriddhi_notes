@@ -49,7 +49,7 @@ const Students = () => {
           status: "success",
           message: "Student deleted successfully!",
         });
-        setStudentToDelete(null); // Reset deletion target
+        setStudentToDelete(null);
       }
     } catch (error) {
       setToast({
@@ -59,7 +59,7 @@ const Students = () => {
           : "Failed to delete student.",
       });
     }
-    setShowPopup(false); // Close popup after deletion
+    setShowPopup(false);
   };
 
   const actions = (row) => (
@@ -148,7 +148,6 @@ const Students = () => {
         />
       )}
 
-      {/* Conditionally render the Edit Form */}
       {isFormOpen && selectedStudent && (
         <EditForm
           data={selectedStudent}

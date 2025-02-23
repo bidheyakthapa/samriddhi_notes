@@ -18,7 +18,6 @@ const SignUp = () => {
 
   const { currentUser } = useContext(AuthContext);
 
-  // Handle input change
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };

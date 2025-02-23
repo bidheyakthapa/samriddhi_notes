@@ -20,7 +20,6 @@ const AddEditNote = () => {
   const isEditMode = noteId !== undefined;
 
   useEffect(() => {
-    // Reset form fields when switching to add mode
     if (!isEditMode) {
       setTitle("");
       setDesc("");
@@ -46,9 +45,8 @@ const AddEditNote = () => {
       }
     };
     fetchNote();
-  }, [noteId, isEditMode]); // Re-run when noteId or isEditMode changes
+  }, [noteId, isEditMode]);
 
-  // Upload file function
   const uploadFile = async () => {
     try {
       const formData = new FormData();
@@ -57,7 +55,7 @@ const AddEditNote = () => {
         "http://localhost:8800/api/upload",
         formData
       );
-      return res.data; // Returns the uploaded file name
+      return res.data;
     } catch (err) {
       console.error("File upload failed", err);
       setToastMessage({
@@ -71,10 +69,8 @@ const AddEditNote = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Reset messages
     setToastMessage(null);
 
-    // Validate inputs
     if (!title) {
       setToastMessage({ status: "error", message: "Title is required" });
       return;
@@ -88,24 +84,21 @@ const AddEditNote = () => {
       let fileName = null;
 
       if (!isEditMode) {
-        // Only upload the file if it's in "Add Note" mode
         fileName = await uploadFile();
       } else if (file) {
-        // If in "Edit Note" mode and a new file is selected, upload the file
         fileName = await uploadFile();
       } else {
-        // If no new file is selected in "Edit Note" mode, use the previous file name
         const res = await axios.get(
           `http://localhost:8800/api/note/getNoteById/${noteId}`
         );
-        fileName = res.data.file; // Use the previous file value from the response
+        fileName = res.data.file;
       }
 
       const noteData = {
         teacher_id: currentUser.id,
         title,
         description: desc,
-        file: fileName || undefined, // Only send file if it's not in edit mode or a new file is uploaded
+        file: fileName || undefined,
       };
 
       if (isEditMode) {
@@ -118,8 +111,7 @@ const AddEditNote = () => {
           message: "Note updated successfully!",
         });
 
-        // Navigate back after a successful update (go back to the previous page)
-        navigate(-1); // This will take you back to the previous page only in edit mode
+        navigate(-1);
       } else {
         await axios.post("http://localhost:8800/api/note/addNote", noteData);
         setToastMessage({
@@ -131,8 +123,6 @@ const AddEditNote = () => {
       setTitle("");
       setDesc("");
       setFile("");
-
-      // navigate("/teacher/note");
     } catch (err) {
       console.error("Failed to add/update note", err);
       setToastMessage({
@@ -192,16 +182,19 @@ const AddEditNote = () => {
         />
 
         <div className="form-buttons">
-          <button type="button" onClick={() => handleAction("edit")}>
+          <button
+            type="button"
+            className="add"
+            onClick={() => handleAction("edit")}
+          >
             {isEditMode ? "Update Note" : "Add Note"}
           </button>
 
-          {/* Only show the cancel button if it's in edit mode */}
           {isEditMode && (
             <button
               type="button"
               onClick={handleCancel}
-              className=" cancel-button"
+              className="cancel-button"
             >
               Cancel
             </button>

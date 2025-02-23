@@ -34,7 +34,6 @@ const LogIn = () => {
     }
   };
 
-  // Redirect if user is already logged in
   if (currentUser) {
     if (currentUser.role === "admin") {
       return <Navigate to="/admin" />;

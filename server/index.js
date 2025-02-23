@@ -36,12 +36,10 @@ app.post("/api/upload", upload.single("file"), function (req, res) {
   res.status(200).json(file.filename);
 });
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/note", noteRoutes);
 
-// Start server
 app.listen(8800, () => {
   console.log("Connected");
 });

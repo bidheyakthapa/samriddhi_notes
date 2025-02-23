@@ -42,11 +42,11 @@ const router = createBrowserRouter([
   // Default route
   {
     path: "/",
-    element: <DLayout />, // Wrap with a default layout for login/signup
+    element: <DLayout />,
     children: [
       {
         index: true,
-        element: <Navigate to="/login" replace />, // Redirect to login by default
+        element: <Navigate to="/login" replace />,
       },
       {
         path: "login",

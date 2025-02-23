@@ -16,7 +16,6 @@ const UserReq = () => {
     { label: "Role", key: "role" },
   ];
 
-  // Fetch data from API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,11 +32,9 @@ const UserReq = () => {
     fetchData();
   }, []);
 
-  // Accept action - Add user to the 'user' table
   const handleAccept = async (row) => {
     try {
       await axios.post("http://localhost:8800/api/user/addUser", row);
-      // After successfully adding the user, remove it from the current request list
       setData(data.filter((item) => item.id !== row.id));
       setToast({ status: "success", message: "User accepted successfully!" });
     } catch (error) {
@@ -79,7 +76,7 @@ const UserReq = () => {
   );
 
   const handleToastClose = () => {
-    setToast(null); // Reset toast after it disappears
+    setToast(null);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -95,7 +92,6 @@ const UserReq = () => {
         </div>
       )}
 
-      {/* Conditionally render the Toast component */}
       {toast && (
         <Toast
           status={toast.status}
